@@ -2,6 +2,7 @@
 
 namespace Spekulatius\PHPScraper;
 
+use Symfony\Component\BrowserKit;
 use Symfony\Component\BrowserKit\HttpBrowser;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -133,4 +134,34 @@ trait UsesBrowserKit
 
         return $this;
     }
+
+     /**
+     * Selects a button by name or alt value for images.
+     */
+    public function findButton($selector){        
+        return $this->currentPage->selectButton($selector)->form();
+    }
+
+    public function submitForm($form,$data){
+        return $this->currentPage = $this->client->submit($form, $data);
+    }
+
+    /**
+     * Finds the first form that contains a button with the given content and
+     * uses it to submit the given form field values.
+     *
+     * @param string $button           The text content, id, value or name of the form <button> or <input type="submit">
+     * @param array  $fieldValues      Use this syntax: ['my_form[name]' => '...', 'my_form[email]' => '...']
+     * @param string $method           The HTTP method used to submit the form
+     * @param array  $serverParameters These values override the ones stored in $_SERVER (HTTP headers must include an HTTP_ prefix as PHP does)
+     */
+
+    public function findFirstForm($button,$fieldValues, $method = 'POST'){
+        return $this->currentPage = $this->client->submitForm($button,$fieldValues,$method);
+    }
+
+
+
+
+
 }

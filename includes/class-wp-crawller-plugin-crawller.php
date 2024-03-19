@@ -47,17 +47,32 @@ class Wp_Crawller_Plugin_Core {
 		}
 
 		if($key != ''){
-			$key='&keyword='.$key;
+			$key=$key;
 		}
 		
 		$html =$url.''.$pages.''.$key.'&cid=0';
 
-		$web = new \Spekulatius\PHPScraper\PHPScraper;
+		$web = new \Spekulatius\PHPScraper\PHPScraper; 
 		$web->go($html);
+	
+		// go to link - login page
+		$url_to_go = $web->links()[1];
+		$click = $web->clickLink($url_to_go);
+
+		// Login with username and password
+		$form = $click->findButton('imageField');
+		$click = $web->submitForm($form, ['username' => 'jmorillog', 'passwd' => '20370364']);
+		
+		// Search for specific list	of images
+		$search_button = 'button';
+		$search_form =$web->findFirstForm($search_button,['keyword'=>$key],'GET');
 		$result = [];
+
+		// Get all images
 		$imagesx =  $web->filter("//div[@class ='main-table-and-page-wrapper']/div[@class='tusou-table-old']/table/tbody/tr/td[@class='xuhao']/img")->images(); 
 		$titles = $web->filterTexts("//div[@class ='main-table-and-page-wrapper']/div[@class='tusou-table-old']/table/tbody/tr/td[@class='xclj']");
 		$albumUrl = $web->filter("//div[@class ='main-table-and-page-wrapper']/div[@class='tusou-table-old']/table/tbody/tr/td[@class='xclj']/a")->links();
+		
 		foreach ($imagesx as $image=>$value) {
 			$result[] = [
 				'Name'=>$titles [$image],
@@ -134,7 +149,8 @@ class Wp_Crawller_Plugin_Core {
 	return (int) $attachment_id;
    }
 
-   public function render_list_image(){
+   public function render_list_image()
+   {
 	    $key= '';
 		$page = 1;
 		$total = 6150;
@@ -155,7 +171,7 @@ class Wp_Crawller_Plugin_Core {
 			$key = get_option( 'keyword_setting' );
 		}
 		$array = $this->get_gallery_info($url,$page,$key);	
-
+       // echo $array ;
 				echo'<div class="parent">';
 					foreach ($array  as $valor) { 
 
@@ -172,7 +188,7 @@ class Wp_Crawller_Plugin_Core {
 				echo'</div>';
 				echo $this->paginate_results(5,$page,$total,$url = esc_url(get_permalink(get_the_id())));	
 	            
-     }
+    }
 
 	public function  make_Wp_Crawller_Plugin_shortcode(){
 	  add_shortcode('render_list_image', array($this, 'render_list_image'));

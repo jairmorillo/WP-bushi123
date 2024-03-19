@@ -213,6 +213,29 @@ class Wp_Crawller_Plugin_Admin {
 					'name'      => 'allow_link_to_albums',
 					'required' => 'true'					
 			);
+
+			$argspass = array (
+				'type'      => 'input',
+				'subtype'   => 'text',
+				'id'    => 'pass_setting',
+				'name'      => 'pass_setting',
+				'required' => 'true',
+				'get_options_list' => '',
+				'value_type'=>'normal',
+				'wp_data' => 'option'
+		    );
+
+			$argsuser = array (
+				'type'      => 'input',
+				'subtype'   => 'text',
+				'id'    => 'user_setting',
+				'name'      => 'user_setting',
+				'required' => 'true',
+				'get_options_list' => '',
+				'value_type'=>'normal',
+				'wp_data' => 'option'
+		   );
+
 		add_settings_field(
 			'url_setting',
 			'Url Setting',
@@ -230,6 +253,7 @@ class Wp_Crawller_Plugin_Admin {
 			'settings_page_general_section',
 			$argskey
 		);
+
 		add_settings_field(
 			'show_titles_checkbox',
 			'Show titles',
