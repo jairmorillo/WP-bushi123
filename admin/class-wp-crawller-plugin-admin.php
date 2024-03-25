@@ -108,7 +108,7 @@ class Wp_Crawller_Plugin_Admin {
 
 	public function addPluginAdminMenu() {
 		//add_menu_page( $page_title, $menu_title, $capability, $menu_slug, $function, $icon_url, $position );
-		add_menu_page(  $this->plugin_name, 'WP Szwego', 'administrator', $this->plugin_name, array( $this, 'displayPluginAdminSettings' ), 'dashicons-admin-settings', 26 );
+		add_menu_page(  $this->plugin_name, 'WP bushi123', 'administrator', $this->plugin_name, array( $this, 'displayPluginAdminSettings' ), 'dashicons-admin-settings', 26 );
 		
 		//add_submenu_page( '$parent_slug, $page_title, $menu_title, $capability, $menu_slug, $function );
 		//add_submenu_page( $this->plugin_name, 'WP Szwego Settings', 'Settings', 'administrator', $this->plugin_name.'-settings', array( $this, 'displayPluginAdminSettings' ));
@@ -236,6 +236,30 @@ class Wp_Crawller_Plugin_Admin {
 				'wp_data' => 'option'
 		   );
 
+
+		   add_settings_field(
+			'user_setting',
+			'User Setting',
+			array( $this, 'user_setting_input_callback' ),
+			'settings_page_general_settings',
+			'settings_page_general_section',
+			$argsuser
+		); 
+
+
+		add_settings_field(
+			'pass_setting',
+			'Pass Setting',
+			array( $this, 'pass_setting_input_callback' ),
+			'settings_page_general_settings',
+			'settings_page_general_section',
+			$argspass
+		); 
+
+
+
+
+
 		add_settings_field(
 			'url_setting',
 			'Url Setting',
@@ -275,6 +299,16 @@ class Wp_Crawller_Plugin_Admin {
 
 
 		register_setting(
+			'settings_page_general_settings',
+			'user_setting'
+			);
+
+		register_setting(
+			'settings_page_general_settings',
+			'pass_setting'
+			);
+
+		register_setting(
 						'settings_page_general_settings',
 						'url_setting'
 						);
@@ -295,6 +329,17 @@ class Wp_Crawller_Plugin_Admin {
 	}
 
 
+	public function user_setting_input_callback($args) {
+		$value = get_option($args['id']); 
+		echo '<input type="text" id="' . $args['id'] . '" name="' . $args['id'] . '" value="' . $value . '">';
+	}
+
+	public function pass_setting_input_callback($args) {
+		$value = get_option($args['id']); 
+		echo '<input type="text" id="' . $args['id'] . '" name="' . $args['id'] . '" value="' . $value . '">';
+	}
+	
+	
 	public function url_setting_input_callback($args) {
 		$value = get_option($args['id']); 
 		echo '<input type="text" id="' . $args['id'] . '" name="' . $args['id'] . '" value="' . $value . '">';
@@ -321,7 +366,7 @@ class Wp_Crawller_Plugin_Admin {
 	}
 
 	public function settings_page_display_general_account() {
-		echo '<p>These settings apply to all Plugin WP Szwego functionality.</p>';
+		echo '<p>These settings apply to all Plugin WP bushi123 functionality.</p>';
 		echo'<p>To display the gallery, copy and paste this shortcode where you want the gallery to be displayed</p>';
 		echo '<code> [render_list_image] </code>';
 	} 

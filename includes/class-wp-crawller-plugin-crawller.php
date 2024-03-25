@@ -40,46 +40,64 @@ class Wp_Crawller_Plugin_Core {
 	 
 	private function get_gallery_info($url,$page,$key){
 
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'vendor/autoload.php';
-		
-		if($page != ''){
-			$pages='?page='.$page;
-		}
-
-		if($key != ''){
-			$key=$key;
-		}
-		
-		$html =$url.''.$pages.''.$key.'&cid=0';
-
-		$web = new \Spekulatius\PHPScraper\PHPScraper; 
-		$web->go($html);
-	
-		// go to link - login page
-		$url_to_go = $web->links()[1];
-		$click = $web->clickLink($url_to_go);
-
-		// Login with username and password
-		$form = $click->findButton('imageField');
-		$click = $web->submitForm($form, ['username' => 'jmorillog', 'passwd' => '20370364']);
-		
-		// Search for specific list	of images
-		$search_button = 'button';
-		$search_form =$web->findFirstForm($search_button,['keyword'=>$key],'GET');
 		$result = [];
+		$user = '';
+		$pass = '';
 
-		// Get all images
-		$imagesx =  $web->filter("//div[@class ='main-table-and-page-wrapper']/div[@class='tusou-table-old']/table/tbody/tr/td[@class='xuhao']/img")->images(); 
-		$titles = $web->filterTexts("//div[@class ='main-table-and-page-wrapper']/div[@class='tusou-table-old']/table/tbody/tr/td[@class='xclj']");
-		$albumUrl = $web->filter("//div[@class ='main-table-and-page-wrapper']/div[@class='tusou-table-old']/table/tbody/tr/td[@class='xclj']/a")->links();
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'vendor/autoload.php';
+		if( get_option('user_setting') !=false && get_option('pass_setting') !=false){
+
+			$user = get_option('user_setting');
+			$pass = get_option('pass_setting');
+
+			if($key != ''){
+				$key=$key;
+			}
+						
+			$html = $url;	
+			$web = new \Spekulatius\PHPScraper\PHPScraper; 
+			$web->go($html);
 		
-		foreach ($imagesx as $image=>$value) {
-			$result[] = [
-				'Name'=>$titles [$image],
-				'ImagenUrl'=> $value->getUri(),
-				'albumUrl'=>$albumUrl[$image]->getUri()
-			];
+			// go to link - login page
+			$url_to_go = $web->links()[1];
+			$click = $web->clickLink($url_to_go);
+	
+			// Login with username and password
+			$form = $click->findButton('imageField');
+			$click = $web->submitForm($form, ['username' => $user, 'passwd' => $pass]);
+			
+			// Search for specific list	of images
+			$search_button = 'button';
+			$search_form =$web->findFirstForm($search_button,['keyword'=>$key],'GET');
+			
+	
+			if($page > 1 && !empty($key) && !is_null($key)){
+				$url_by_key = $search_form->getUri();	//?page='.$page.'&keyword='.$key.'&cid=0';
+				$url_by_page_key = str_replace('?keyword','?page='.$page.'&keyword',$url_by_key);
+				$go_click = $web->clickLink($url_by_page_key);
+		
+				$images =  $go_click->filter("//div[@class ='main-table-and-page-wrapper']/div[@class='tusou-table-old']/table/tbody/tr/td[@class='xuhao']/img")->images(); 
+				$titles = $go_click->filterTexts("//div[@class ='main-table-and-page-wrapper']/div[@class='tusou-table-old']/table/tbody/tr/td[@class='xclj']");
+				$albumUrl = $go_click->filter("//div[@class ='main-table-and-page-wrapper']/div[@class='tusou-table-old']/table/tbody/tr/td[@class='xclj']/a")->links();
+			}else{
+				$images =  $web->filter("//div[@class ='main-table-and-page-wrapper']/div[@class='tusou-table-old']/table/tbody/tr/td[@class='xuhao']/img")->images(); 
+				$titles = $web->filterTexts("//div[@class ='main-table-and-page-wrapper']/div[@class='tusou-table-old']/table/tbody/tr/td[@class='xclj']");
+				$albumUrl = $web->filter("//div[@class ='main-table-and-page-wrapper']/div[@class='tusou-table-old']/table/tbody/tr/td[@class='xclj']/a")->links();
+			}
+	
+	
+			foreach ($images as $image=>$value) {
+				$result[] = [
+					'Name'=>$titles [$image],
+					'ImagenUrl'=> $value->getUri(),
+					'albumUrl'=>$albumUrl[$image]->getUri()
+				];
+			}
+
+		}else{
+            $result = [];
 		}
+		
 		
 		return  $result;     
 	}

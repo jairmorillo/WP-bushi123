@@ -9,14 +9,14 @@
  * that starts the plugin.
  *
  * @link              https://cylwebservices.com
- * @since             1.0.0
+ * @since             1.2.0
  * @package           Wp_Crawller_Plugin
  *
  * @wordpress-plugin
  * Plugin Name:       WP bushi123
  * Plugin URI:        https://cylwebservices.com
  * Description:       WP bushi123
- * Version:           1.0.0
+ * Version:           1.2.0
  * Author:            Jair Morillo
  * Author URI:        https://cylwebservices.com/
  * License:           GPL-2.0+
