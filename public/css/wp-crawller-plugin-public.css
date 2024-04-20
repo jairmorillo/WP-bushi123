@@ -1,92 +1,98 @@
 /**
- * All of the CSS for your public-facing functionality should be
- * included in this file.
- */
+* All of the CSS for your public-facing functionality should be
+* included in this file.
+*/
 
- ul.page-numbers {
-    margin: 20px 0 10px;
-    width: 100%;
-    padding: 0;
-    font-size: 14px;
-    line-height: normal;
-    clear: both;
-    float: left;
-    }
-   
-      ul.page-numbers li {
-        float: left;
-        list-style: none;
-        }
-   
-  ul.page-numbers a,
-  ul.page-numbers span {
-    border-radius: 3px;
-    -moz-border-radius: 3px;
-    -webkit-border-radius: 3px;
-    background: -webkit-gradient(linear, left top, left bottom, from(#E4E3E3), to(#FFFFFF));
-    background: -moz-linear-gradient(top,  #E4E3E3,  #FFFFFF);
-    filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#E4E3E3', endColorstr='#FFFFFF');
-    padding: 5px 5px 5px 5px;
-    min-width: 32px;
-    display: block;
-    text-align: center;
-    margin: 3px;
-    text-decoration: none;
-    border: 1px solid #ccc;
-    color: #666;
-    }
-   
-  ul.page-numbers a:hover,
-  ul.page-numbers span.current {  
-    border: 1px solid #666;
-    color: #444;
-  }
+ul.page-numbers {
+margin: 20px 0 10px;
+width: 100%;
+padding: 0;
+font-size: 14px;
+line-height: normal;
+clear: both;
+float: left;
+}
 
-  .parent {
-    width: 100%;
-    max-width: 1365px;
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    grid-column-gap: 5px;
-    grid-row-gap: 5px;
-  }
-     .items{
-      margin-bottom: 1rem;
-      min-height: 250px;
-      font-size: 1em;
-      display: block;
-      position: relative;
-      width: auto;
-      padding: 0;     
-     }
-    .items a{
-      max-height: 319px;
-      overflow: hidden;
-      display: block;
-      width: 100%;
-      height: 100%;
-      position: absolute;
-      background-position: center;
-      background-repeat: no-repeat;
-      background-size: cover;
-    }
+ul.page-numbers li {
+float: left;
+list-style: none;
+}
 
-      .items a .text-item {
-          background: #fff;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          display: -webkit-box;
-          -webkit-line-clamp: 1;
-          -webkit-box-orient: vertical;
-          position: absolute;
-          bottom: 5px;
+ul.page-numbers a,
+ul.page-numbers span {
+border-radius: 3px;
+-moz-border-radius: 3px;
+-webkit-border-radius: 3px;
+background: -webkit-gradient(linear, left top, left bottom, from(#E4E3E3), to(#FFFFFF));
+background: -moz-linear-gradient(top,  #E4E3E3,  #FFFFFF);
+filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#E4E3E3', endColorstr='#FFFFFF');
+padding: 5px 5px 5px 5px;
+min-width: 32px;
+display: block;
+text-align: center;
+margin: 3px;
+text-decoration: none;
+border: 1px solid #ccc;
+color: #666;
+}
 
-      }
-    .items img {
-      width: 100%;
-      
-    }
+ul.page-numbers a:hover,
+ul.page-numbers span.current {  
+border: 1px solid #666;
+color: #444;
+}
 
-    .hidden {
-      display: none !important;
-    }
+.parent {
+width: 100%;
+max-width: 1365px;
+display: grid;
+grid-template-columns: repeat(5, 1fr);
+grid-column-gap: 5px;
+grid-row-gap: 5px;
+}
+.items{
+margin-bottom: 1rem;
+min-height: 250px;
+font-size: 1em;
+display: block;
+position: relative;
+width: auto;
+padding: 0;     
+}
+.items a{
+max-height: 319px;
+overflow: hidden;
+display: block;
+width: 100%;
+height: 100%;
+position: absolute;
+background-position: center;
+background-repeat: no-repeat;
+background-size: cover;
+}
+
+.items a .text-item {
+background: #fff;
+overflow: hidden;
+text-overflow: ellipsis;
+display: -webkit-box;
+-webkit-line-clamp: 1;
+-webkit-box-orient: vertical;
+position: absolute;
+bottom: 5px;
+
+}
+.items img {
+width: 100%;
+
+}
+
+.hidden {
+display: none !important;
+}
+
+@media only screen and (max-width: 768px) {
+.parent {
+grid-template-columns: repeat(2, 1fr);
+}
+}
